@@ -4,7 +4,7 @@ Chain.js is a pipeline wrap on top of node-mysql. It allows easy pipeling of req
 
 # Setup
 
-```
+```javascript
 /**
  * 1. configure your connection pool
  */
@@ -18,7 +18,7 @@ and free the connection when the requests are done.
 
 Let's assume you have a table with blogs posts of users. And each blog post has a field referencing to a user id `uid`.
 
-```
+```javascript
 new Chain()
   .query("SELECT * FROM posts")
   /**
