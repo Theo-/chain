@@ -17,11 +17,7 @@
  *      .done(function(chained) {
  *      })
  */
- 
-/**
- * 1. configure your connection pool
- */
-var connectionPool = null;
+var connectionPool = require('./connection.js');
 
 var Chain = function() {
     this.isChain = true;
@@ -65,7 +61,6 @@ var Chain = function() {
         var me = this;
 
         me.chainCallback.push(function() {
-            console.log("piping");
             var data = me.data;
             var requests = 0;
             var requestsDone = 0;
@@ -89,6 +84,10 @@ var Chain = function() {
                 if(requestsDone == requests) {
                     me._next();
                 }
+            }
+
+            if(data.length == 0) {
+                me._next();
             }
         });
 
