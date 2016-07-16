@@ -1,6 +1,6 @@
 # Chain.js
 
-Chain.js is a pipeline wrap on top of node-mysql. It allows easy pipeling of requests. See examples.
+Chain.js is a pipeline wrap on top of node-mysql. It allows easy pipelining of requests. See examples.
 
 # Setup
 
