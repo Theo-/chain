@@ -11,8 +11,8 @@ Chain.js is a pipeline wrap on top of node-mysql. It allows easy pipeling of req
 var connectionPool = null;
 ```
 
-First you must give Chain.js a pool of connection. Chain.js will automatically parallelize your requests until the limit of the pool
-and free the connection when the requests are done.
+First you must give Chain.js a pool of connection. Chain.js will automatically parallelize your requests up to the limit of the pool
+and free the connections one by one when the requests are done.
 
 # Examples
 
