@@ -16,6 +16,8 @@ and free the connections one by one when the requests are done.
 
 # Examples
 
+### 1. Linking user to posts
+
 Let's assume you have a table with blogs posts of users. And each blog post has a field referencing to a user id `uid`.
 
 ```javascript
@@ -29,13 +31,13 @@ new Chain()
    *    {uid: 2, title: "...", content: ".."}
    * ]
    */
-  .pipe("uid", function(done) {
+  .pipe("uid", function(uid, done) {
     // You can reuse a chain inside!
     return new Chain()
               .query("SELECT * FROM users WHERE uid=?", [
                 uid
               ])
-              .replace("user", done);
+              .replaceOne("user", done);
   })
   /**
    * Now the data looks like this:
@@ -43,6 +45,42 @@ new Chain()
    *    {uid: 1, user: { .. user object for uid 1 .. }, title: "...", content: ".."},
    *    {uid: 1, user: { .. user object for uid 1 .. }, title: "...", content: ".."},
    *    {uid: 2, user: { .. user object for uid 2 .. }, title: "...", content: ".."}
+   * ]
+   */
+  .done(function(data) {
+    // data contains the populated request
+  });
+```
+
+### 2. Linking posts to users
+
+Now let's do it the other way around!
+
+```javascript
+new Chain()
+  .query("SELECT * FROM users")
+  /**
+   * Here the data looks like this:
+   * [
+   *    {firstName: 'a', lastName: 'b' .. },
+   *    {firstName: 'c', lastName: 'd' .. },
+   *    {firstName: 'e', lastName: 'f' .. },
+   * ]
+   */
+  .pipe("uid", function(uid, done) {
+    // You can reuse a chain inside!
+    return new Chain()
+              .query("SELECT * FROM posts WHERE uid=?", [
+                uid
+              ])
+              .replace("posts", done);
+  })
+  /**
+   * Now the data looks like this:
+   * [
+   *    {firstName: 'a', lastName: 'b' .., posts: [ .. posts .. ] },
+   *    {firstName: 'c', lastName: 'd' .., posts: [ .. posts .. ] },
+   *    {firstName: 'e', lastName: 'f' .., posts: [ .. posts .. ] },
    * ]
    */
   .done(function(data) {
