@@ -29,7 +29,7 @@ new Chain()
    *    {uid: 2, title: "...", content: ".."}
    * ]
    */
-  .pipeline("uid", function(done) {
+  .pipe("uid", function(done) {
     // You can reuse a chain inside!
     return new Chain()
               .query("SELECT * FROM users WHERE uid=?", [
